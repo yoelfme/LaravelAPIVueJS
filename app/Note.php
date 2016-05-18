@@ -10,6 +10,8 @@ class Note extends Model
         'note', 'category_id'
     ];
 
+    protected $visible = ['id', 'note', 'category_id'];
+
     protected function category()
     {
         return $this->belongsTo(App\Category::class);
