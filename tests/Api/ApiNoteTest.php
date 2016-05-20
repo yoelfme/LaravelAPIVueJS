@@ -41,6 +41,29 @@ class ApiNoteTest extends TestCase
             'success' => true,
             'note' => Note::first()->toArray()
         ]);
+    }
 
+    public function test_validation_when_creating_a_note()
+    {
+        $category = factory(Category::class)->create();
+
+        $data = [
+            'note' => '',
+            'category_id' => 100
+        ];
+
+        $this->post('api/v1/notes', $data, [
+            'Accept' => 'application/json'
+        ]);
+
+        $this->dontSeeInDatabase('notes', $data);
+
+        $this->seeJsonEquals([
+            'success' => false,
+            'errors' => [
+                'The note field is required.',
+                'The selected category id is invalid.'
+            ]
+        ]);
     }
 }

@@ -30,6 +30,11 @@ class NotesController extends Controller
     {
         $data = $request->only(['note', 'category_id']);
 
+        $this->validate($request, [
+            'note' => 'required',
+            'category_id' => 'exists:categories,id'
+        ]);
+
         $note = Note::create($data);
 
         return [
