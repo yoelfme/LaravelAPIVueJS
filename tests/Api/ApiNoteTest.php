@@ -9,7 +9,7 @@ class ApiNoteTest extends TestCase
 
     use DatabaseTransactions;
 
-    protected $note = 'Esta es una nota'
+    protected $note = 'Esta es una nota';
 
     public function test_list_notes()
     {
@@ -25,7 +25,7 @@ class ApiNoteTest extends TestCase
 
     }
 
-    public function text_can_create_a_note()
+    public function test_can_create_a_note()
     {
         $category = factory(Category::class)->create();
         $data = [
@@ -39,7 +39,7 @@ class ApiNoteTest extends TestCase
 
         $this->seeJsonEquals([
             'success' => true,
-            'note' => Note::first()
+            'note' => Note::first()->toArray()
         ]);
 
     }
