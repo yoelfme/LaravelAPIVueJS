@@ -58,12 +58,18 @@ class NotesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Note $note
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Note $note)
     {
-        //
+        $note->fill($request->only(['note', 'category_id']));
+        $note->save();
+
+        return [
+            'success' => true,
+            'note' => $note->toArray()
+        ];
     }
 
     /**

@@ -72,7 +72,7 @@ class ApiNoteTest extends TestCase
         $category = factory(Category::class)->create();
         $anotherCategory = factory(Category::class)->create();
 
-        $note = factory(Note::class)->makes();
+        $note = factory(Note::class)->make();
         $category->notes()->save($note);
 
         $data = [
