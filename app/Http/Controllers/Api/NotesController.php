@@ -63,6 +63,11 @@ class NotesController extends Controller
      */
     public function update(Request $request, Note $note)
     {
+        $this->validate($request, [
+            'note' => 'required',
+            'category_id' => 'exists:categories,id'
+        ]);
+
         $note->fill($request->only(['note', 'category_id']));
         $note->save();
 
@@ -75,11 +80,15 @@ class NotesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Note $note
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Note $note)
     {
-        //
+        $note->delete();
+
+        return [
+            'success' => true
+        ];
     }
 }
