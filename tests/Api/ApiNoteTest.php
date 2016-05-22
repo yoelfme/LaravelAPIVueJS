@@ -97,7 +97,7 @@ class ApiNoteTest extends TestCase
     {
         $category = factory(Category::class)->create();
 
-        $note = factory(Note::class)->makes();
+        $note = factory(Note::class)->make();
         $category->notes()->save($note);
 
         $data = [
@@ -120,6 +120,23 @@ class ApiNoteTest extends TestCase
                 'The note field is required.',
                 'The selected category id is invalid.'
             ]
+        ]);
+    }
+
+    public function test_can_delete_a_note()
+    {
+        $note = factory(Note::class)->create();
+
+        $this->delete('api/v1/notes/'.$note->id, [], [
+            'Accept' => 'application/json'
+        ]);
+
+        $this->dontSeeInDatabase('notes', [
+            'id' => $note->id
+        ]);
+
+        $this->seeJsonEquals([
+            'success' => true
         ]);
     }
 }
