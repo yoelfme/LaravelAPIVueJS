@@ -68,6 +68,9 @@
     </template>
     @endverbatim
 
+    <script src="https://code.jquery.com/jquery-2.2.3.js"
+             integrity="sha256-laXWtGydpwqJ8JA+X9x2miwmaiKhn8tVmOVEigRNtP4="
+             crossorigin="anonymous"></script>
     <script src="{{ url('js/vue.js') }}"></script>
     <script src="{{ url('js/notes.js') }}"></script>
 @endsection
