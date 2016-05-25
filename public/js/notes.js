@@ -47,20 +47,7 @@ var vm = new Vue({
             note: '',
             category_id: ''
         },
-        notes: [
-            {
-                note: 'Laravel 5.1 es LTS',
-                category_id: 1
-            },
-            {
-                note: 'Laravel 5.2 es la ultima version',
-                category_id: 1
-            },
-            {
-                note: '@click se utiliza como un alias de v-on:click',
-                category_id: 2
-            }
-        ],
+        notes: [],
         categories: [
             {
                 id: 1,
@@ -71,6 +58,11 @@ var vm = new Vue({
                 name: 'Vue.js'
             }
         ]
+    },
+    ready: function () {
+        $.getJSON('/api/v1/notes', [], function (notes) {
+            vm.notes = notes;
+        });
     },
     methods: {
         createNote: function () {
