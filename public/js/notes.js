@@ -47,6 +47,7 @@ var vm = new Vue({
             note: '',
             category_id: ''
         },
+        errors: [],
         notes: [],
         categories: [
             {
@@ -66,9 +67,21 @@ var vm = new Vue({
     },
     methods: {
         createNote: function () {
-            this.notes.push(this.new_note);
+            this.errors = [];
 
-            this.new_note = {note: '', category_id: ''}
+            $.ajax({
+                url: '/api/v1/notes',
+                method: 'POST',
+                dataType: 'json',
+                data: vm.new_note,
+                success: function (data) {
+                    vm.notes.push(data.note);
+                    vm.new_note = {note: '', category_id: ''};
+                },
+                error: function (jqXHR) {
+                    vm.errors = jqXHR.responseJSON.errors;
+                }
+            })
         }
     },
     filters: {
