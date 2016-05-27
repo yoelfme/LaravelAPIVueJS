@@ -14,3 +14,9 @@
 Route::get('name', function () {
     return \App\User::first()->name;
 });
+
+
+Route::get('notes', function () {
+
+	return view('notes');
+});
