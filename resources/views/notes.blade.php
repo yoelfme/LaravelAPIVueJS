@@ -65,7 +65,7 @@
                 <td>
                     <input type="text" v-model="note.note" class="form-control">
                     <ul v-if="errors.length">
-                        <li v-for="error in errors" class="text-danger">@{{ error }}</li>
+                        <li v-for="error in errors" class="text-danger">{{ error }}</li>
                     </ul>
                 </td>
                 <td>

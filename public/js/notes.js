@@ -38,7 +38,7 @@ Vue.component('note-row', {
         update: function () {
 
             this.errors = [];
-            
+
             $.ajax({
                 url: '/api/v1/notes/' + this.note.id,
                 method: 'PUT',
@@ -46,13 +46,13 @@ Vue.component('note-row', {
                 data: this.note,
                 success: function (data) {
                     this.$parent.notes.$set(this.$parent.notes.indexOf(this.note), data.note);
+
+                    this.editing = false;
                 }.bind(this),
                 error: function (jqXHR) {
                     this.errors = jqXHR.responseJSON.errors;
                 }.bind(this)
             })
-
-            this.editing = false;
         }
     }
 });
