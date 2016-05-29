@@ -24,7 +24,8 @@ Vue.component('note-row', {
     props: ['note', 'categories'],
     data: function () {
         return {
-            editing: false
+            editing: false,
+            errors: []
         };
     },
     methods: {
@@ -36,16 +37,20 @@ Vue.component('note-row', {
         },
         update: function () {
 
+            this.errors = [];
+
+            var vm = this;
+
             $.ajax({
-                url: '/api/v1/notes' + this.note.id,
+                url: '/api/v1/notes/' + this.note.id,
                 method: 'PUT',
                 dataType: 'json',
-                data: vm.new_note,
+                data: this.note,
                 success: function (data) {
-                    
+                    vm.$parent.notes.$set(vm.$parent.notes.indexOf(vm.note), data.note);
                 },
                 error: function (jqXHR) {
-                    
+                    vm.errors = jqXHR.responseJSON.errors;
                 }
             })
 
