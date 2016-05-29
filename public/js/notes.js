@@ -38,20 +38,18 @@ Vue.component('note-row', {
         update: function () {
 
             this.errors = [];
-
-            var vm = this;
-
+            
             $.ajax({
                 url: '/api/v1/notes/' + this.note.id,
                 method: 'PUT',
                 dataType: 'json',
                 data: this.note,
                 success: function (data) {
-                    vm.$parent.notes.$set(vm.$parent.notes.indexOf(vm.note), data.note);
-                },
+                    this.$parent.notes.$set(this.$parent.notes.indexOf(this.note), data.note);
+                }.bind(this),
                 error: function (jqXHR) {
-                    vm.errors = jqXHR.responseJSON.errors;
-                }
+                    this.errors = jqXHR.responseJSON.errors;
+                }.bind(this)
             })
 
             this.editing = false;
