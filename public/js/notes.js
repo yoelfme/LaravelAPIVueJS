@@ -35,6 +35,20 @@ Vue.component('note-row', {
             this.editing = true;
         },
         update: function () {
+
+            $.ajax({
+                url: '/api/v1/notes' + this.note.id,
+                method: 'PUT',
+                dataType: 'json',
+                data: vm.new_note,
+                success: function (data) {
+                    
+                },
+                error: function (jqXHR) {
+                    
+                }
+            })
+
             this.editing = false;
         }
     }
