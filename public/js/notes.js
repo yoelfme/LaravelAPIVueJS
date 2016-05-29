@@ -25,7 +25,8 @@ Vue.component('note-row', {
     data: function () {
         return {
             editing: false,
-            errors: []
+            errors: [],
+            draft: {}
         };
     },
     methods: {
@@ -33,7 +34,12 @@ Vue.component('note-row', {
             this.$parent.notes.$remove(this.note);
         },
         edit: function () {
+            this.draft = $.extend({}, this.note);
+            this.errors = []
             this.editing = true;
+        },
+        cancel: function () {
+            this.editing = false;
         },
         update: function () {
 
@@ -43,7 +49,7 @@ Vue.component('note-row', {
                 url: '/api/v1/notes/' + this.note.id,
                 method: 'PUT',
                 dataType: 'json',
-                data: this.note,
+                data: this.draft,
                 success: function (data) {
                     this.$parent.notes.$set(this.$parent.notes.indexOf(this.note), data.note);
 

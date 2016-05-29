@@ -60,10 +60,10 @@
             </template>
             <template v-else>
                 <td>
-                    <select-category :categories="categories" :id.sync="note.category_id"></select-category>
+                    <select-category :categories="categories" :id.sync="draft.category_id"></select-category>
                 </td>
                 <td>
-                    <input type="text" v-model="note.note" class="form-control">
+                    <input type="text" v-model="draft.note" class="form-control">
                     <ul v-if="errors.length">
                         <li v-for="error in errors" class="text-danger">{{ error }}</li>
                     </ul>
@@ -71,6 +71,9 @@
                 <td>
                     <a href="" @click.prevent="update()">
                         <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                    </a>
+                    <a href="" @click.prevent="cancel()">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                     </a>
                 </td>
             </template>
