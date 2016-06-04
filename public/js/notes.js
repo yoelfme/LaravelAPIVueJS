@@ -30,9 +30,6 @@ Vue.component('note-row', {
         };
     },
     methods: {
-        remove: function () {
-            this.$parent.notes.$remove(this.note);
-        },
         edit: function () {
             this.draft = $.extend({}, this.note);
             this.errors = []
@@ -57,6 +54,16 @@ Vue.component('note-row', {
                 }.bind(this),
                 error: function (jqXHR) {
                     this.errors = jqXHR.responseJSON.errors;
+                }.bind(this)
+            })
+        },
+        remove: function () {
+            $.ajax({
+                url: '/api/notes/v1/' + this.note.id,
+                method: 'DELETE',
+                dataType: 'json',
+                success: function (data) {
+                    this.$parent.notes.$remove(this.note);
                 }.bind(this)
             })
         }
