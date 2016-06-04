@@ -64,13 +64,6 @@ Vue.component('note-row', {
                 dataType: 'json',
                 success: function (data) {
                     this.$parent.notes.$remove(this.note);
-                }.bind(this), 
-                error: function (jqXHR) {
-                    this.$parent.error =  jqXHR.responseJSON.message;
-
-                    $('#error_message').delay(3000).fadeOut(1000, function () {
-                        vm.error = '';
-                    });
                 }.bind(this)
             });
         }
@@ -106,6 +99,14 @@ var vm = new Vue({
         $.getJSON('/api/v1/notes', [], function (notes) {
             vm.notes = notes;
         });
+
+        $(document).ajaxError(function (event, jqXHR) {
+            vm.error =  jqXHR.responseJSON.message;
+
+            $('#error_message').delay(3000).fadeOut(1000, function () {
+                vm.error = '';
+            });
+        }.bind(this));
     },
     methods: {
         createNote: function () {

@@ -55,7 +55,7 @@
                 <td>{{ note.note }}</td>
                 <td>
                     <a href="" @click.prevent="edit()"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
-                    <a v-show="note.category_id != 3" href="" @click.prevent="remove()">
+                    <a href="" @click.prevent="remove()">
                         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                     </a>
                 </td>
