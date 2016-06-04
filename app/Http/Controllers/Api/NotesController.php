@@ -85,6 +85,8 @@ class NotesController extends Controller
      */
     public function destroy(Note $note)
     {
+        abort_if($note->category_id == 3, 403, 'No tienes permiso para eliminar esta nota');
+
         $note->delete();
 
         return [

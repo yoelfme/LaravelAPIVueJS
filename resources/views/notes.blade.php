@@ -4,6 +4,8 @@
 	<div class="row">
         <div class="col-md-8 col-md-offset-2">
             <h1>Styde | VueJS</h1>
+
+            <p v-show="error" class="alert alert-danger" id="error_message">@{{ error }}</p>
     
             <table class="table table-bordered">
                 <thead>
@@ -53,7 +55,7 @@
                 <td>{{ note.note }}</td>
                 <td>
                     <a href="" @click.prevent="edit()"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
-                    <a href="" @click.prevent="remove()">
+                    <a v-show="note.category_id != 3" href="" @click.prevent="remove()">
                         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                     </a>
                 </td>

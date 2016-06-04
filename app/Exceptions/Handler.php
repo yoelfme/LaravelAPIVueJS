@@ -49,7 +49,7 @@ class Handler extends ExceptionHandler
             return response()->json([
                 'success' => false,
                 'message' => $e->getMessage()
-            ]);
+            ], 404);
         }
 
         return parent::render($request, $e);

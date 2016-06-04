@@ -59,13 +59,20 @@ Vue.component('note-row', {
         },
         remove: function () {
             $.ajax({
-                url: '/api/notes/v1/' + this.note.id,
+                url: '/api/v1/notes/'+this.note.id,
                 method: 'DELETE',
                 dataType: 'json',
                 success: function (data) {
                     this.$parent.notes.$remove(this.note);
+                }.bind(this), 
+                error: function (jqXHR) {
+                    this.$parent.error =  jqXHR.responseJSON.message;
+
+                    $('#error_message').delay(3000).fadeOut(1000, function () {
+                        vm.error = '';
+                    });
                 }.bind(this)
-            })
+            });
         }
     }
 });
@@ -78,6 +85,7 @@ var vm = new Vue({
             category_id: ''
         },
         errors: [],
+        error: '',
         notes: [],
         categories: [
             {
@@ -87,7 +95,11 @@ var vm = new Vue({
             {
                 id: 2,
                 name: 'Vue.js'
-            }
+            },
+            {
+                id: 3,
+                name: 'SASS'
+            },
         ]
     },
     ready: function () {
