@@ -8,6 +8,8 @@ function findById(items, id) {
     return null;
 }
 
+var resource = null;
+
 Vue.filter('category', function (id) {
     var category =  findById(this.categories, id)
 
@@ -42,19 +44,23 @@ Vue.component('note-row', {
 
             this.errors = [];
 
-            this.$http.put('/api/v1/notes' + this.note.id, this.draft)
-                .then(function (response) {
-                    this.$parent.notes.$set(this.$parent.notes.indexOf(this.note), response.data.note);
+            var component = this;
 
-                    this.editing = false;
+            resource.update({id: this.note.id}, this.draft)
+                .then(function (response) {
+                    this.notes.$set(this.notes.indexOf(component.note), response.data.note);
+
+                    component.editing = false;
                 }, function (response) {
-                    this.errors = response.data.errors;
+                    component.errors = response.data.errors;
                 })
         },
         remove: function () {
-            this.$http.delete('/api/v1/notes/' + this.note.id)
+            var component = this;
+
+            resource.delete({id: this.note.id})
                 .then(function (response) {
-                    this.$parent.notes.$remov(this.note);
+                    this.notes.$remove(component.note);
                 })
         }
     }
@@ -86,10 +92,14 @@ var vm = new Vue({
         ]
     },
     ready: function () {
-        this.$http.get('/api/v1/notes')
+
+        resource = this.$resource('api/v1/notes{/id}');
+
+        resource.get()
             .then(function (response) {
                 this.notes = response.data;
             });
+        
 
         Vue.http.interceptors.push({
             response: function (response) {
@@ -114,7 +124,7 @@ var vm = new Vue({
         createNote: function () {
             this.errors = [];
 
-            this.$http.post('/api/v1/notes', this.new_note)
+           resource.save({}, this.new_note)
                 .then(function (response) {
                     this.notes.push(response.data.note);
                     this.new_note = {note: '', category_id: ''}
