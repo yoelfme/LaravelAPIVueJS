@@ -96,7 +96,7 @@ var vm = new Vue({
         ]
     },
     ready: function () {
-        this.$http({url: '/api/v1/notes'})
+        this.$http.get('/api/v1/notes')
             .then(function (response) {
                 this.notes = response.data;
             });
@@ -113,19 +113,13 @@ var vm = new Vue({
         createNote: function () {
             this.errors = [];
 
-            $.ajax({
-                url: '/api/v1/notes',
-                method: 'POST',
-                dataType: 'json',
-                data: vm.new_note,
-                success: function (data) {
-                    vm.notes.push(data.note);
-                    vm.new_note = {note: '', category_id: ''};
-                },
-                error: function (jqXHR) {
-                    vm.errors = jqXHR.responseJSON.errors;
-                }
-            })
+            this.$http.post('/api/v1/notes', this.new_note)
+                .then(function (response) {
+                    this.notes.push(response.data.note);
+                    this.new_note = {note: '', category_id: ''}
+                }, function (response) {
+                    this.errors = response.data.errors;
+                })
         }
     },
     filters: {
