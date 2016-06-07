@@ -91,13 +91,24 @@ var vm = new Vue({
                 this.notes = response.data;
             });
 
-        $(document).ajaxError(function (event, jqXHR) {
-            vm.error =  jqXHR.responseJSON.message;
+        Vue.http.interceptors.push({
+            response: function (response) {
+                if (response.ok) {
+                    return response;
+                }
 
-            $('#error_message').delay(3000).fadeOut(1000, function () {
-                vm.error = '';
-            });
-        }.bind(this));
+                $('#error_message').show();
+
+                this.error = response.data.message;
+
+                $('#error_message').delay(3000)
+                    .fadeOut(1000, function () {
+                        this.error = '';
+                    })
+
+                return response;
+            }.bind(this)
+        })
     },
     methods: {
         createNote: function () {
