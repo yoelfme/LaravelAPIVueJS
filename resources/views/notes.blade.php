@@ -87,5 +87,6 @@
              integrity="sha256-laXWtGydpwqJ8JA+X9x2miwmaiKhn8tVmOVEigRNtP4="
              crossorigin="anonymous"></script>
     <script src="{{ url('js/vue.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.7.2/vue-resource.js"></script>
     <script src="{{ url('js/notes.js') }}"></script>
 @endsection

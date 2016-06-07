@@ -96,9 +96,10 @@ var vm = new Vue({
         ]
     },
     ready: function () {
-        $.getJSON('/api/v1/notes', [], function (notes) {
-            vm.notes = notes;
-        });
+        this.$http({url: '/api/v1/notes'})
+            .then(function (response) {
+                this.notes = response.data;
+            });
 
         $(document).ajaxError(function (event, jqXHR) {
             vm.error =  jqXHR.responseJSON.message;
