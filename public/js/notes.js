@@ -42,30 +42,20 @@ Vue.component('note-row', {
 
             this.errors = [];
 
-            $.ajax({
-                url: '/api/v1/notes/' + this.note.id,
-                method: 'PUT',
-                dataType: 'json',
-                data: this.draft,
-                success: function (data) {
-                    this.$parent.notes.$set(this.$parent.notes.indexOf(this.note), data.note);
+            this.$http.put('/api/v1/notes' + this.note.id, this.draft)
+                .then(function (response) {
+                    this.$parent.notes.$set(this.$parent.notes.indexOf(this.note), response.data.note);
 
                     this.editing = false;
-                }.bind(this),
-                error: function (jqXHR) {
-                    this.errors = jqXHR.responseJSON.errors;
-                }.bind(this)
-            })
+                }, function (response) {
+                    this.errors = response.data.errors;
+                })
         },
         remove: function () {
-            $.ajax({
-                url: '/api/v1/notes/'+this.note.id,
-                method: 'DELETE',
-                dataType: 'json',
-                success: function (data) {
-                    this.$parent.notes.$remove(this.note);
-                }.bind(this)
-            });
+            this.$http.delete('/api/v1/notes/' + this.note.id)
+                .then(function (response) {
+                    this.$parent.notes.$remov(this.note);
+                })
         }
     }
 });
