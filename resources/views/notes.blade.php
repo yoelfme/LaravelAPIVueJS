@@ -51,7 +51,7 @@
     </template>
 
     <template id="note_row_tpl">
-        <tr>
+        <tr class="animated" transition="bounce-out">
             <template v-if="! editing">
                 <td>{{ note.category_id | category }}</td>
                 <td>{{ note.note }}</td>
@@ -106,4 +106,6 @@
     <script src="{{ url('js/vue.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.7.2/vue-resource.js"></script>
     <script src="{{ url('js/notes.js') }}"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 @endsection

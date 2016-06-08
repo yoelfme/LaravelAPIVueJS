@@ -10,6 +10,10 @@ function findById(items, id) {
 
 var resource = null;
 
+Vue.transition('bounce-out', {
+    leaveClass: 'bounceOut'
+});
+
 Vue.filter('category', function (id) {
     var category =  findById(this.categories, id)
 
