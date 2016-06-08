@@ -74,6 +74,10 @@ var vm = new Vue({
             category_id: ''
         },
         errors: [],
+        alert: {
+            message: '',
+            display: false
+        },
         error: '',
         notes: [],
         categories: [
@@ -107,14 +111,12 @@ var vm = new Vue({
                     return response;
                 }
 
-                $('#error_message').show();
+                this.alert.message = response.data.message;
+                this.alert.display = true;
 
-                this.error = response.data.message;
-
-                $('#error_message').delay(3000)
-                    .fadeOut(1000, function () {
-                        this.error = '';
-                    })
+                setTimeout(function () {
+                    this.alert.display = false;
+                }.bind(this), 4000)
 
                 return response;
             }.bind(this)

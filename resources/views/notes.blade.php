@@ -5,7 +5,9 @@
         <div class="col-md-8 col-md-offset-2">
             <h1>Styde | VueJS</h1>
 
-            <p v-show="error" class="alert alert-danger" id="error_message">@{{ error }}</p>
+            <div class="alert-container">
+                <p v-show="alert.display" class="alert alert-danger" id="error_message" transition="fade">@{{ alert.message }}</p>
+            </div>
     
             <table class="table table-bordered">
                 <thead>
@@ -82,6 +84,21 @@
         </tr>
     </template>
     @endverbatim
+
+    <style>
+        .fade-transition {
+            transition: all 1s ease;
+            opacity: 100;
+        }
+
+        .fade-enter, .fade-leave {
+            opacity: 0;
+        }
+
+        .alert-container {
+            height: 60px;
+        }
+    </style>
 
     <script src="https://code.jquery.com/jquery-2.2.3.js"
              integrity="sha256-laXWtGydpwqJ8JA+X9x2miwmaiKhn8tVmOVEigRNtP4="
