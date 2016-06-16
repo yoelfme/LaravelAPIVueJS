@@ -111,26 +111,6 @@ var vm = new Vue({
             }.bind(this)
         })
     },
-    events: {
-        'delete-note': function (note) {
-            resource.delete({id: note.id})
-                .then(function (response) {
-                    this.notes.$remove(note);
-                })
-        },
-        'update-note': function (component) {
-            resource.update({id: component.note.id}, component.draft)
-                .then(function (response) {
-                    for (var key in response.data.note) {
-                        component.note[key] = response.data.note[key];
-                    }
-
-                    component.editing = false;
-                }, function (response) {
-                    component.errors = response.data.errors;
-                })
-        }
-    },
     methods: {
         createNote: function () {
             this.errors = [];
@@ -141,6 +121,24 @@ var vm = new Vue({
                     this.new_note = {note: '', category_id: ''}
                 }, function (response) {
                     this.errors = response.data.errors;
+                })
+        },
+        deleteNote: function (note) {
+            resource.delete({id: note.id})
+                .then(function (response) {
+                    this.notes.$remove(note);
+                })
+        },
+        updateNote: function (component) {
+            resource.update({id: component.note.id}, component.draft)
+                .then(function (response) {
+                    for (var key in response.data.note) {
+                        component.note[key] = response.data.note[key];
+                    }
+
+                    component.editing = false;
+                }, function (response) {
+                    component.errors = response.data.errors;
                 })
         }
     },
