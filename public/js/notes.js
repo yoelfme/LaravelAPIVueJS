@@ -47,25 +47,10 @@ Vue.component('note-row', {
         update: function () {
 
             this.errors = [];
-
-            var component = this;
-
-            resource.update({id: this.note.id}, this.draft)
-                .then(function (response) {
-                    this.notes.$set(this.notes.indexOf(component.note), response.data.note);
-
-                    component.editing = false;
-                }, function (response) {
-                    component.errors = response.data.errors;
-                })
+            this.$dispatch('update-note', this);
         },
         remove: function () {
-            var component = this;
-
-            resource.delete({id: this.note.id})
-                .then(function (response) {
-                    this.notes.$remove(component.note);
-                })
+            this.$dispatch('delete-note', this.note)
         }
     }
 });
@@ -125,6 +110,26 @@ var vm = new Vue({
                 return response;
             }.bind(this)
         })
+    },
+    events: {
+        'delete-note': function (note) {
+            resource.delete({id: note.id})
+                .then(function (response) {
+                    this.notes.$remove(note);
+                })
+        },
+        'update-note': function (component) {
+            resource.update({id: component.note.id}, component.draft)
+                .then(function (response) {
+                    for (var key in response.data.note) {
+                        component.note[key] = response.data.note[key];
+                    }
+
+                    component.editing = false;
+                }, function (response) {
+                    component.errors = response.data.errors;
+                })
+        }
     },
     methods: {
         createNote: function () {
