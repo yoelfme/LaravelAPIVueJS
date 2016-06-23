@@ -9,3 +9,4 @@ vue.js
 .DS_Store
 
 public/js/main.*
+public/css/app.*
